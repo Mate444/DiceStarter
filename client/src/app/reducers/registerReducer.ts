@@ -1,10 +1,12 @@
 import {
-  SEND_FORM_BEGIN,
-  SEND_FORM_FAILURE,
-  SEND_FORM_SUCCESS,
-  RESET_FORM_STATUS,
   SET_USER,
-} from '../actions/actionsUser';
+  SET_USERS,
+  SET_TOKEN,
+  USER_LOGIN_FAILED,
+  SET_USER_PROFILE,
+} from '../constants/constants';
+
+import {SET_SUBSCRIBE} from '../actions/actionsUser';
 
 // Types
 import {FormRegisterState} from '../../types';
@@ -12,36 +14,45 @@ import {RootState} from '../store';
 
 const initialState: FormRegisterState = {
   inputs: JSON.parse(localStorage.getItem('user') || '{}'),
-  status: 'idle',
+  userToken: JSON.parse(localStorage.getItem('token') || '{}'),
+  users: null,
+  userProfile: {},
 };
-
 
 const formReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case SEND_FORM_BEGIN:
-      return {
-        ...state,
-        status: 'loading',
-      };
-    case SEND_FORM_FAILURE:
-      return {
-        ...state,
-        status: 'failed',
-      };
-    case SEND_FORM_SUCCESS:
-      return {
-        ...state,
-        status: 'idle',
-      };
-    case RESET_FORM_STATUS:
-      return {
-        ...state,
-        status: 'idle',
-      };
     case SET_USER:
       return {
         ...state,
         inputs: action.payload,
+      };
+    case SET_USERS:
+      return {
+        ...state,
+        users: action.payload,
+      };
+    case SET_TOKEN:
+      return {
+        ...state,
+        userToken: action.payload,
+      };
+    case USER_LOGIN_FAILED:
+      return {
+        ...state,
+        inputs: action.payload,
+      };
+    case SET_USER_PROFILE:
+      return {
+        ...state,
+        userProfile: action.payload,
+      };
+    case SET_SUBSCRIBE:
+      return {
+        ...state,
+        inputs: {
+          ...state.inputs,
+          subscriber: action.payload,
+        },
       };
     default:
       return state;
@@ -50,7 +61,12 @@ const formReducer = (state = initialState, action: any) => {
 
 export default formReducer;
 
-export const formRegisterStatus = (state: RootState) =>
-  state.handleForm.status;
 export const userInfo = (state: RootState) =>
   state.handleRegister.inputs;
+export const users = (state: RootState) =>
+  state.handleRegister.users;
+export const userToken = (state: RootState) =>
+  state.handleRegister.userToken;
+
+export const userProfile = (state: RootState) =>
+  state.handleRegister.userProfile;

@@ -1,11 +1,46 @@
 
+export interface Address {
+    id: string,
+    address: string,
+    city: string,
+    postalCode: string,
+    phone: string | null,
+}
+export interface userChanges {
+    id:string,
+    name:string,
+    firstName:string,
+    lastName:string,
+    birthday:string,
+    country:string,
+    email:string,
+    password:string,
+    role:string,
+    status:string,
+}
 export interface FormState {
     inputs: Inputs,
-    status: 'idle' | 'failed' | 'loading' | 'done',
 }
 
 export interface cartState {
     productsInCart: ProductRes[]
+}
+
+export interface wishlistState {
+  productsInWishlist: ProductRes[]
+}
+
+export interface User {
+        id: string,
+        name: string,
+        firstName: string,
+        lastName: string,
+        birthday: string,
+        country: string,
+        email: string,
+        password: string,
+        role: string,
+        status: string,
 }
 export interface FormRegisterState {
     inputs: {
@@ -25,27 +60,43 @@ export interface FormRegisterState {
         role: string,
         status: string
     },
-    status: 'idle' | 'failed' | 'loading' | 'done',
+    userToken: string,
+    users:User[] | null,
+   userProfile: {
+    id: string,
+    name: string,
+    firstName: string,
+    lastName: string,
+    birthday: string,
+    profilePicture: string,
+    address: string,
+    city: string,
+    postalCode: number,
+    phone: string,
+    country: string,
+    email: string,
+    password: string,
+    role: string,
+    status: string
+   } | {}
 }
 export interface ReviewState {
     reviewsResponse: ReviewRes[] | null,
+    allReviews: ReviewRes[] | null,
     body: string,
-    postReviewStatus: 'idle' | 'failed' | 'loading' | 'done',
-    getReviewsStatus: 'idle' | 'failed' | 'loading' | 'done',
-    deleteReviewStatus: 'idle' | 'failed' | 'loading' | 'done',
-    changeReviewStatus: 'idle' | 'failed' | 'loading' | 'done',
     id: string,
 }
 export interface ReviewPost {
     comment: string,
     id: string,
     rating:number,
-    name:string,
+    userId:string,
 }
 export interface ReviewRes {
     id: number,
     rating: number,
     comment: string,
+    userId:string,
 }
 export interface SearchInput {
     name?:string,
@@ -65,6 +116,7 @@ export interface ProductRes {
     stock:string,
     description:string,
     categories: dbCategories[],
+    rating: string,
 }
 
 export interface Inputs {
@@ -97,14 +149,10 @@ export interface base64 {
 export interface Products {
     // Data
     productsList: ProductRes[] | null,
-    productById: ProductRes
+    productById: ProductRes | null,
     productCategories: Categories[]
+    bestProducts: ProductRes[] | null,
     // Status
-    productsListStatus: 'idle' | 'failed' | 'loading',
-    productByIdStatus: 'idle' | 'failed' | 'loading',
-    getCategoriesStatus: 'idle' | 'failed' | 'loading',
-    deleteByIdStatus: 'idle' | 'failed' | 'loading' | 'deleted',
-    addCategoryStatus: 'idle' | 'failed' | 'loading',
     totalPages: number,
     queryFilter: string,
     querySort: string,
@@ -112,8 +160,9 @@ export interface Products {
 };
 
 export type Categories = {
-    value: number,
-    label: string
+    value: string,
+    label: string,
+    id: number,
 };
 
 export interface loginInput {

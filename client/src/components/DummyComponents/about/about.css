@@ -1,0 +1,16 @@
+.aboutBox{
+    display: flex;
+    flex-direction: column;
+}
+
+.aboutTitle{
+    align-self: center;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+.aboutCardsBox{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

@@ -4,6 +4,8 @@ import handleProductsReducer from './reducers/handleProductsReducer';
 import registerReducer from './reducers/registerReducer';
 import reviewReducer from './reducers/reviewsReducer';
 import cartsReducer from './reducers/cartReducer';
+import handleOrderReducer from './reducers/orderReducer';
+import handleWishlistReducer from './reducers/wishlistReducer';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +14,8 @@ export const store = configureStore({
     handleRegister: registerReducer,
     handleReview: reviewReducer,
     handleCart: cartsReducer,
+    handleOrder: handleOrderReducer,
+    handleWishlist: handleWishlistReducer,
   },
 });
 

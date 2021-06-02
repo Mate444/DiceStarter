@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 const express = require('express');
 
 const router = express.Router();
@@ -19,10 +20,10 @@ function onOrder(param, array) {
       return 0;
     });
     case 'minPrice': return array.sort((a, b) => (
-      a.price - b.price
+      (a.priceDiscount ? a.priceDiscount : a.price) - (b.priceDiscount ? b.priceDiscount : b.price)
     ));
     case 'maxPrice': return array.sort((a, b) => (
-      b.price - a.price
+      (b.priceDiscount ? b.priceDiscount : b.price) - (a.priceDiscount ? a.priceDiscount : a.price)
     ));
     case 'minRating': return array.sort((a, b) => (
       a.rating - b.rating
@@ -73,4 +74,19 @@ router.get('/', (req, res, next) => {
       });
   }
 });
+
+router.get('/bestRated', (req, res, next) => {
+  Product.findAll({
+    where: { rating: { [Op.gte]: 4 } },
+    include: [{ model: Category, attributes: ['id', 'name'] }],
+  })
+    .then((response) => {
+      onOrder('maxRating', response);
+      const bestProducts = response.slice(0, 5);
+      res.send(bestProducts);
+    }).catch((e) => {
+      next(e);
+    });
+});
+
 module.exports = router;
