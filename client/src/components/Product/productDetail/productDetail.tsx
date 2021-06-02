@@ -131,6 +131,17 @@ function ProductDetail(props:any ) {
     };
   }));
 
+  useEffect(() => {
+    setProductDetailCategories(product?.categories?.map((c) => {
+      return {
+        value: c.id,
+        label: c.name,
+      };
+    }));
+    console.log(productDetailCategories);
+  }, [product]);
+
+
   const handleSelectChange = (e:any) => {
     setProductDetailCategories(e);
   };
@@ -165,7 +176,7 @@ function ProductDetail(props:any ) {
     categories: product?.categories,
     rating: product?.rating,
   });
-
+  console.log(product);
   useEffect(() => {
     setChanges({...changes,
       categories: productDetailCategories?.map((c) => c.value)});
@@ -231,11 +242,12 @@ function ProductDetail(props:any ) {
                 <RatingStars rating={product.rating}/>
               </div>
               { editMode === false ?
-                <div>
-                  {product.categories.map((c, i) =>
-                    <span key={i} className='productDetailCategories'>
-                      {c.name}
-                    </span>)}
+                <div className='productDetailCategoriesAll'>
+                  {
+                    productDetailCategories?.map((c, i) =>
+                      <span key={i} className='productDetailCategories'>
+                        {c.label}
+                      </span>)}
                 </div> :
                 <div className='ProductDetailSelect'>
                   <Select onChange={handleSelectChange}
@@ -282,9 +294,9 @@ function ProductDetail(props:any ) {
                           onClick={handleOnCart}>
                         Add to Cart
                         </button>
-                        <button className='productDetailAddToCart'
+                        <button className='productDetailAddToWhishlist'
                           onClick={handleOnWishlist}>
-                        Add to Wishlist
+                          <i className='material-icons'>favorite</i>
                         </button>
                       </div>:
                       <button type='button'
