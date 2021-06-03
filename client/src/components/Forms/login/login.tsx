@@ -49,11 +49,11 @@ const Login = () => {
     if (deepEqualError(errors)) {
       dispatch(loginFormAsync(input))
           .then((r) => {
-            console.log(r);
             if (r !== 'error') {
               swal.fire({
                 title: 'Logged in succesfully!',
                 icon: 'success',
+                background: '#202020',
                 // fix buttons
               })
                   .then((ok) => {
@@ -69,11 +69,15 @@ const Login = () => {
               swal.fire({
                 text: 'The email or username does not exist',
                 icon: 'error',
+                background: '#202020',
               });
             }
           }).catch((err) => console.error(err));
     } else {
-      swal.fire('You need to insert an e-mail and a password');
+      swal.fire({
+        text: 'You need to insert an e-mail and a password',
+        background: '#202020',
+      });
     }
   };
   useEffect(() => {

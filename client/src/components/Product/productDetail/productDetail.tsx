@@ -63,19 +63,22 @@ function ProductDetail(props: any) {
       swal.fire({
         text: 'You already added this product to cart!',
         icon: 'info',
+        background: '#202020',
       });
     } else {
       dispatch(addProductInCart({
         id: product.id,
         name: product.name,
         price: parseFloat(product.price),
-        image: product.picture[0],
+        image: product.picture,
         stock: product.stock,
         amount: 1,
       }, User.id, User.address));
       swal.fire({
         text: 'Product added succesfully!',
         icon: 'success',
+        background: '#202020',
+        position: 'top-end',
       });
     }
   };
@@ -83,11 +86,11 @@ function ProductDetail(props: any) {
     const duplicate = JSON.parse(localStorage
         .getItem('wishlist') || '[]').find((el) => el.id === product.id);
     if (duplicate) {
-      console.log(product.id);
-      dispatch(deleteProductInWishlist(product.id, User.id));
+      dispatch(deleteProductInWishlist(product.id, User.id, token));
       swal.fire({
         text: 'Product removed from the wishlist!',
         icon: 'info',
+        background: '#202020',
       });
     } else {
       dispatch(addProductInWishlist({
@@ -97,10 +100,11 @@ function ProductDetail(props: any) {
         image: product.picture[0],
         stock: product.stock,
         amount: 1,
-      }, User.id));
+      }, User.id, token));
       swal.fire({
         text: 'Product added succesfully!',
         icon: 'success',
+        background: '#202020',
       });
     }
   };
@@ -157,9 +161,7 @@ function ProductDetail(props: any) {
         label: c.name,
       };
     }));
-    console.log(productDetailCategories);
   }, [product]);
-
 
   const handleSelectChange = (e:any) => {
     setProductDetailCategories(e);
@@ -172,11 +174,13 @@ function ProductDetail(props: any) {
             swal.fire({
               text: 'Changes Saved!',
               icon: 'success',
+              background: '#202020',
             });
           } else {
             swal.fire({
               text: 'Oops, something went wrong',
               icon: 'error',
+              background: '#202020',
             });
           }
         }).catch((err) => console.error(err));
@@ -195,7 +199,7 @@ function ProductDetail(props: any) {
     categories: product?.categories,
     rating: product?.rating,
   });
-  console.log(product);
+
   useEffect(() => {
     setChanges({...changes,
       categories: productDetailCategories?.map((c) => c.value)});
@@ -207,6 +211,7 @@ function ProductDetail(props: any) {
         swal.fire({
           text: 'You already added this color!',
           icon: 'info',
+          background: '#202020',
         });
       }
     });
@@ -220,6 +225,7 @@ function ProductDetail(props: any) {
       swal.fire({
         text: 'Products cannot have more than 5 colors!',
         icon: 'warning',
+        background: '#202020',
       });
     };
   };
@@ -246,7 +252,6 @@ function ProductDetail(props: any) {
     size: e.target.innerText});
   const handlePriceChange = (e:any) => setChanges({...changes,
     price: e.target.innerText});
-  console.log(changes);
   return (
     <div className='productDetailBackground'>
       {
@@ -270,12 +275,11 @@ function ProductDetail(props: any) {
                 <RatingStars rating={product.rating}/>
               </div>
               { editMode === false ?
-                <div className='productDetailCategoriesAll'>
-                  {
-                    productDetailCategories?.map((c, i) =>
-                      <span key={i} className='productDetailCategories'>
-                        {c.label}
-                      </span>)}
+                <div>
+                  {product.categories.map((c, i) =>
+                    <span key={i} className='productDetailCategories'>
+                      {c.name}
+                    </span>)}
                 </div> :
                 <div className='ProductDetailSelect'>
                   <Select onChange={handleSelectChange}
@@ -365,7 +369,6 @@ function ProductDetail(props: any) {
                                   <ColorCircle key={id} color={el}
                                     onClick={() => {
                                       if (changes.color.length > 1) {
-                                        console.log(changes.color.length > 1);
                                         const toChange =
                         changes.color.filter((color:any) => el !== color);
                                         setChanges({...changes,
@@ -375,6 +378,7 @@ function ProductDetail(props: any) {
                                           text: `Product must have at least 1
                                            color!`,
                                           icon: 'warning',
+                                          background: '#202020',
                                         });
                                       }
                                     }
