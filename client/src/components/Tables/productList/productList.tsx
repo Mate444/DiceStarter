@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 import React, {useState, useEffect} from 'react';
@@ -94,8 +95,12 @@ function ProductList(props:any): JSX.Element {
 
   const handleOnSubmit = () => {
     if (input.discount < 99) {
+      swal.fire({
+        text: `${input.name} updated!`,
+        icon: 'success',
+        background: '#202020',
+      });
       if (input.discount === 0) {
-        console.log('descuento 0');
         dispatch(changeProductInDBAsync({
           ...input,
           priceDiscount: null,
@@ -191,9 +196,26 @@ function ProductList(props:any): JSX.Element {
       <button className="productListEditButton" onClick={handleOnSubmit}>
         <i className='material-icons'>save</i></button>
       <button className="productListDeleteButton" onClick={() => {
-        if (window.confirm(`Are you sure you want to delete ${input.name}?`)) {
-          dispatch(deleteProductByIdAsync(input.id, token));
-        }
+        swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#74009D',
+          cancelButtonColor: '#d33',
+          background: '#202020',
+          confirmButtonText: 'Yes, delete it!',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            swal.fire({
+              title: 'Deleted!',
+              text: 'The product has been deleted.',
+              icon: 'success',
+              background: '#202020',
+            });
+            dispatch(deleteProductByIdAsync(input.id, token));
+          }
+        });
       }}>
         <i className='material-icons'>delete</i>
       </button>

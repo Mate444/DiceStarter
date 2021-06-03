@@ -6,6 +6,7 @@ import {useAppSelector, useAppDispatch} from '../../../app/hooks';
 import {userToken} from '../../../app/reducers/registerReducer';
 import {Link} from 'react-router-dom';
 import './userList.css';
+import swal from 'sweetalert2';
 
 const UserList = (props:any) => {
   const [changes, setChanges] = useState<userChanges>({
@@ -24,12 +25,16 @@ const UserList = (props:any) => {
   const token = useAppSelector(userToken);
   const handleRoleChange = (e: any) => {
     setChanges({...changes, role: e.label});
-    console.log(changes);
   };
   const handleStatusChange = (e:any) => {
     setChanges({...changes, status: e.label});
   };
   const handleSubmit = () => {
+    swal.fire({
+      text: 'User updated!',
+      icon: 'success',
+      background: '#202020',
+    });
     dispatch(modifyUser(changes, token));
   };
 

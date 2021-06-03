@@ -42,24 +42,28 @@ const FormAddress = () => {
             swal.fire({
               text: 'You need to insert a proper phone number!',
               icon: 'warning',
+              background: '#202020',
             });
           }
         } else {
           swal.fire({
             text: 'You need to insert your Postal Code!',
             icon: 'warning',
+            background: '#202020',
           });
         }
       } else {
         swal.fire({
           text: 'You need to insert your city!',
           icon: 'warning',
+          background: '#202020',
         });
       }
     } else {
       swal.fire({
         text: 'You need to insert your address!',
         icon: 'warning',
+        background: '#202020',
       });
     }
   };
@@ -77,7 +81,7 @@ const FormAddress = () => {
           type='text'
           onChange={handleAddressChange}
           value={address.address}
-          placeholder='Adress...' />
+          placeholder='Address...' />
         <input name='city'
           className='formAdressCity'
           type='text'

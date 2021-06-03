@@ -22,7 +22,7 @@ const CartTotal = () => {
   productsInCart.forEach((element) => {
     total += element.price * element.amount;
   });
-  total = Math.ceil(total);
+  total = parseFloat(total.toFixed(2));
   // eslint-disable-next-line react/prop-types
   useEffect(() => {
     dispatch(getProductsInCart());
@@ -39,6 +39,7 @@ const CartTotal = () => {
         swal.fire({
           text: 'You must add products to your cart in order to buy them!',
           icon: 'info',
+          background: '#202020',
         });
       };
     } else {
@@ -46,6 +47,7 @@ const CartTotal = () => {
         html: `it seems you don't have an adress, 
         <a href='/address'>Add one here</a>`,
         icon: 'info',
+        background: '#202020',
       });
     };
   };
