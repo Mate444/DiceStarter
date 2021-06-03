@@ -18,9 +18,9 @@ router.post('/', (req, res, next) => {
   const preference = {
     items: productsToMp,
     back_urls: {
-      success: 'https://dice-starter-xi.vercel.app/home?page=1',
-      failure: 'https://dice-starter-xi.vercel.app/home?page=1',
-      pending: 'https://dice-starter-xi.vercel.app/home?page=1',
+      success: 'http://localhost:3000/home',
+      failure: 'http://localhost:3000/home',
+      pending: 'http://localhost:3000/home',
     },
     auto_return: 'approved',
   };
